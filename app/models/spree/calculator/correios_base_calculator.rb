@@ -23,7 +23,7 @@ module Spree
 
       package = ::Correios::Frete::Pacote.new
       itens.map do |item|
-        variant = item.variant.present? item.variant : item.product 
+        variant = item.variant.present? ? item.variant : item.product 
         weight = variant.weight.to_f
         depth  = variant.depth.to_f
         width  = variant.width.to_f
