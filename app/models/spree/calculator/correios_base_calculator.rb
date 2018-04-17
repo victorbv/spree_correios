@@ -23,10 +23,11 @@ module Spree
 
       package = ::Correios::Frete::Pacote.new
       itens.map do |item|
-        weight = item.product.weight.to_f
-        depth  = item.product.depth.to_f
-        width  = item.product.width.to_f
-        height = item.product.height.to_f
+        variant = item.variant.present? item.variant : item.product 
+        weight = variant.weight.to_f
+        depth  = variant.depth.to_f
+        width  = variant.width.to_f
+        height = variant.height.to_f
         package_item = ::Correios::Frete::PacoteItem.new(peso: weight, comprimento: depth, largura: width, altura: height)
         package.add_item(package_item)
       end
