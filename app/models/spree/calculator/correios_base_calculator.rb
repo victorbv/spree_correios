@@ -1,5 +1,6 @@
 module Spree
-  class Calculator::CorreiosBaseCalculator < Calculator
+  class Calculator::CorreiosBaseCalculator < ShippingCalculator
+
     preference :zipcode, :string
     preference :token, :string
     preference :password, :string
@@ -10,8 +11,8 @@ module Spree
     # attr_accessible :preferred_zipcode, :preferred_token, :preferred_password, :preferred_declared_value, :preferred_receipt_notification, :preferred_receive_in_hands
     attr_reader :delivery_time
     
-    def compute(object)
-      return unless object.present?
+    def compute_package(object)
+      return unless object.present? and object.contents.present?
       order = object.is_a?(Spree::Order) ? object : object.order
 
       itens = []
@@ -47,7 +48,6 @@ module Spree
       return 0.0 if webservice.erro?
       @delivery_time = webservice.prazo_entrega
       webservice.valor
-    rescue 0.0
     end
     
     def available?(order)
